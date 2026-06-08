@@ -262,14 +262,9 @@ export default function Home() {
         opacity: 0.7,
         zIndex: 50
       }}>
-        <div style={{ display: 'flex', gap: '20px' }}>
-          <a href="https://vibekit.doodle2dollars.com" target="_blank" rel="noopener noreferrer" style={{ color: '#E33C29', textDecoration: 'none' }}>
-            MADE USING VIBEKIT
-          </a>
-          <a href="https://buymeacoffee.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer" style={{ color: '#E33C29', textDecoration: 'none' }}>
-            ☕ BUY ME A COFFEE
-          </a>
-        </div>
+        <a href="https://vibekit.doodle2dollars.com" target="_blank" rel="noopener noreferrer" style={{ color: '#E33C29', textDecoration: 'none' }}>
+          MADE USING VIBEKIT
+        </a>
         <span style={{ color: '#E33C29' }}>
           MADE BY DOODLE2DOLLARS
         </span>
