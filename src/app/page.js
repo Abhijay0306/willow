@@ -17,6 +17,7 @@ export default function Home() {
   const [wish, setWish] = useState("");
   const [status, setStatus] = useState("idle"); // idle, shaking, broken
   const [result, setResult] = useState("");
+  const [showResult, setShowResult] = useState(false);
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef(null);
@@ -105,10 +106,17 @@ export default function Home() {
         setResult(data.result);
       }
       playSnap();
+      setStatus("broken");
+      
+      // Wait 1.5s before showing the result overlay so the broken stick is visible
+      setTimeout(() => {
+        setShowResult(true);
+      }, 1500);
+      
     } catch (error) {
       setResult("The magic faded... Please try again.");
-    } finally {
       setStatus("broken");
+      setTimeout(() => setShowResult(true), 1500);
     }
   };
 
@@ -131,6 +139,7 @@ export default function Home() {
 
   const reset = () => {
     setStatus("idle");
+    setShowResult(false);
     setWish("");
     setResult("");
   };
@@ -201,7 +210,7 @@ export default function Home() {
       </main>
 
       {/* Full overlay for the result */}
-      <div className={`${styles.resultText} ${status === "broken" ? styles.visible : ""}`}>
+      <div className={`${styles.resultText} ${showResult ? styles.visible : ""}`}>
         <h2 className={styles.resultTitle}>YOUR WISH IS GRANTED... BUT:</h2>
         <p className={styles.resultMessage}>{result}</p>
         <div style={{ display: 'flex', gap: '20px' }}>
