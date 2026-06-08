@@ -122,7 +122,7 @@ export default function Home() {
   };
 
   const shareResult = async () => {
-    const textToShare = `I wished for "${wish}"\n\n...but the Monkey's Paw had other plans: "${result}"\n\nDare to make your own wish? Try it yourself at https://willow.doodle2dollars.com`;
+    const textToShare = `I wished for "${wish}"\n\n...but the Wishing Willow had other plans: "${result}"\n\nDare to make your own wish? Try it yourself at https://willow.doodle2dollars.com`;
 
     try {
       if (navigator.share) {
