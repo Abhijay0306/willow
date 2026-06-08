@@ -16,6 +16,28 @@ const courier = Courier_Prime({
 export const metadata = {
   title: "Wishing Willow",
   description: "Make a wish, but beware the consequences...",
+  openGraph: {
+    title: "Wishing Willow",
+    description: "Dare to make your own wish?",
+    url: "https://willow.doodle2dollars.com",
+    siteName: "Wishing Willow",
+    images: [
+      {
+        url: "https://willow.doodle2dollars.com/share-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Wishing Willow"
+      }
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Wishing Willow",
+    description: "Dare to make your own wish?",
+    images: ["https://willow.doodle2dollars.com/share-image.png"]
+  }
 };
 
 export default function RootLayout({ children }) {

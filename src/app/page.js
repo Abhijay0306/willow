@@ -122,33 +122,18 @@ export default function Home() {
   };
 
   const shareResult = async () => {
-    const textToShare = `I wished for "${wish}"\n\n...but the Wishing Willow had other plans: "${result}"\n\nDare to make your own wish? Try it yourself at https://willow.doodle2dollars.com`;
+    const textToShare = `I wished for "${wish}"\n\n...but the Wishing Willow had other plans: "${result}"\n\nDare to make your own wish?`;
+    const shareUrl = "https://willow.doodle2dollars.com";
 
     try {
       if (navigator.share) {
-        try {
-          const response = await fetch("/share-image.png");
-          const blob = await response.blob();
-          const file = new File([blob], "wishing-willow.png", { type: blob.type });
-
-          if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            await navigator.share({
-              title: 'Wishing Willow',
-              text: textToShare,
-              files: [file]
-            });
-            return;
-          }
-        } catch (e) {
-          console.error("Failed to share image, falling back to text", e);
-        }
-
         await navigator.share({
           title: 'Wishing Willow',
           text: textToShare,
+          url: shareUrl
         });
       } else {
-        await navigator.clipboard.writeText(textToShare);
+        await navigator.clipboard.writeText(`${textToShare} Try it yourself at ${shareUrl}`);
         alert("Result copied to clipboard!");
       }
     } catch (err) {
@@ -181,19 +166,10 @@ export default function Home() {
       <header className={styles.header}>
         <div className={styles.logo}>
           <span>WISHING<br/>WILLOW</span>
-          {/* Leaf SVG approximation */}
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M12 21C12 21 8 13 4 13C4 13 8 9 12 9C12 9 16 5 20 5" />
-            <path d="M12 21C12 21 16 13 20 13" />
-            <path d="M12 21V9" />
-          </svg>
         </div>
         <div className={styles.headerRight}>
           <button className={styles.actionButton} onClick={toggleMute} style={{ padding: '10px 15px' }}>
             {isMuted ? "🔇 UNMUTE" : "🔊 MUTE"}
-          </button>
-          <button className={styles.actionButton} onClick={() => textareaRef.current?.focus()}>
-            MAKE YOUR WISH HAPPEN!
           </button>
         </div>
       </header>
