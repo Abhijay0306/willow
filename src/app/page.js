@@ -124,16 +124,41 @@ export default function Home() {
   const shareResult = async () => {
     const textToShare = `I wished for "${wish}"\n\n...but the Wishing Willow had other plans: "${result}"\n\nDare to make your own wish?`;
     const shareUrl = "https://willow.doodle2dollars.com";
+    const fullText = `${textToShare} Try it yourself at ${shareUrl}`;
 
     try {
       if (navigator.share) {
-        await navigator.share({
-          title: 'Wishing Willow',
-          text: textToShare,
-          url: shareUrl
-        });
+        let sharedWithFile = false;
+        try {
+          const response = await fetch("/share-image.png");
+          const blob = await response.blob();
+          const file = new File([blob], "wishing-willow.png", { type: blob.type });
+
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            // Copy to clipboard to handle apps like Instagram/WhatsApp dropping text
+            await navigator.clipboard.writeText(fullText);
+            
+            await navigator.share({
+              title: 'Wishing Willow',
+              text: fullText,
+              url: shareUrl,
+              files: [file]
+            });
+            sharedWithFile = true;
+          }
+        } catch (e) {
+          console.error("Failed to share image file", e);
+        }
+
+        if (!sharedWithFile) {
+          await navigator.share({
+            title: 'Wishing Willow',
+            text: fullText,
+            url: shareUrl
+          });
+        }
       } else {
-        await navigator.clipboard.writeText(`${textToShare} Try it yourself at ${shareUrl}`);
+        await navigator.clipboard.writeText(fullText);
         alert("Result copied to clipboard!");
       }
     } catch (err) {
