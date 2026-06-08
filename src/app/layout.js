@@ -1,4 +1,5 @@
 import { Luckiest_Guy, Courier_Prime } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const luckiestGuy = Luckiest_Guy({ 
@@ -45,6 +46,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body suppressHydrationWarning className={`${luckiestGuy.variable} ${courier.variable}`}>
         {children}
+        <Analytics />
       </body>
     </html>
   );
