@@ -20,6 +20,7 @@ export default function Home() {
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef(null);
+  const breakAudioRef = useRef(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -37,6 +38,23 @@ export default function Home() {
         audioRef.current.pause();
       }
     }
+  }, [isMuted]);
+
+  useEffect(() => {
+    // Unlock audio on first user interaction to bypass autoplay restrictions
+    const unlockAudio = () => {
+      if (audioRef.current && !isMuted) {
+        audioRef.current.play().catch(e => console.log("Still prevented", e));
+      }
+      document.removeEventListener('click', unlockAudio);
+      document.removeEventListener('keydown', unlockAudio);
+    };
+    document.addEventListener('click', unlockAudio);
+    document.addEventListener('keydown', unlockAudio);
+    return () => {
+      document.removeEventListener('click', unlockAudio);
+      document.removeEventListener('keydown', unlockAudio);
+    };
   }, [isMuted]);
 
   const playRumble = () => {
@@ -57,10 +75,9 @@ export default function Home() {
 
   const playSnap = () => {
     try {
-      if (!isMuted) {
-        const breakAudio = new Audio("/breaking-sound.wav");
-        breakAudio.volume = 1.0;
-        breakAudio.play().catch(e => console.log("Break audio prevented:", e));
+      if (!isMuted && breakAudioRef.current) {
+        breakAudioRef.current.currentTime = 0;
+        breakAudioRef.current.play().catch(e => console.log("Break audio prevented:", e));
       }
     } catch(e) {}
   };
@@ -131,7 +148,8 @@ export default function Home() {
 
   return (
     <div className="app-container">
-      <audio ref={audioRef} src="/bg-music.mp3" loop autoPlay muted={isMuted} />
+      <audio ref={audioRef} src="/bg-music.mp3" loop autoPlay />
+      <audio ref={breakAudioRef} src="/breaking-sound.wav" preload="auto" />
       <header className={styles.header}>
         <div className={styles.logo}>
           <span>WISHING<br/>WILLOW</span>
