@@ -274,7 +274,7 @@ export default function Home() {
       <div className={`${styles.resultText} ${showResult ? styles.visible : ""}`}>
         <h2 className={styles.resultTitle}>YOUR WISH IS GRANTED... BUT:</h2>
         <p className={styles.resultMessage}>{result}</p>
-        <div style={{ display: 'flex', gap: '20px' }}>
+        <div className={styles.resultButtons}>
           <button className={styles.actionButton} onClick={reset}>TRY AGAIN?</button>
           <button className={styles.actionButton} onClick={shareResult}>SHARE</button>
         </div>
