@@ -213,6 +213,27 @@ export default function Home() {
         </div>
       </main>
 
+      {/* Footer Links */}
+      <footer style={{
+        position: 'absolute',
+        bottom: '15px',
+        left: '20px',
+        right: '20px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        fontFamily: 'var(--font-heading)',
+        fontSize: '0.8rem',
+        opacity: 0.7,
+        zIndex: 50
+      }}>
+        <a href="https://vibekit.doodle2dollars.com" target="_blank" rel="noopener noreferrer" style={{ color: '#E33C29', textDecoration: 'none' }}>
+          MADE USING VIBEKIT
+        </a>
+        <span style={{ color: '#E33C29' }}>
+          MADE BY DOODLE2DOLLARS
+        </span>
+      </footer>
+
       {/* Full overlay for the result */}
       <div className={`${styles.resultText} ${showResult ? styles.visible : ""}`}>
         <h2 className={styles.resultTitle}>YOUR WISH IS GRANTED... BUT:</h2>
