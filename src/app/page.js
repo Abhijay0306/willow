@@ -154,7 +154,6 @@ export default function Home() {
             await navigator.share({
               title: 'Wishing Willow',
               text: fullText,
-              url: shareUrl,
               files: [file]
             });
             sharedWithFile = true;
@@ -166,8 +165,7 @@ export default function Home() {
         if (!sharedWithFile) {
           await navigator.share({
             title: 'Wishing Willow',
-            text: fullText,
-            url: shareUrl
+            text: fullText
           });
         }
       } else {
