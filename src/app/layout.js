@@ -16,7 +16,8 @@ const courier = Courier_Prime({
 
 export const metadata = {
   title: "Wishing Willow",
-  description: "Make a wish, but beware the consequences...",
+  description: "Make a wish, but beware the consequences... A dark, twisted Wishing Willow experience.",
+  keywords: ["wishing willow", "willow", "obsession", "monkey's paw", "dark wishes", "twisted wishes", "AI wishing well", "creepy AI"],
   openGraph: {
     title: "Wishing Willow",
     description: "Dare to make your own wish?",
