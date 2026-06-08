@@ -22,6 +22,7 @@ export default function Home() {
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef(null);
   const breakAudioRef = useRef(null);
+  const textareaRef = useRef(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -121,9 +122,27 @@ export default function Home() {
   };
 
   const shareResult = async () => {
-    const textToShare = `I wished for "${wish}"\nand this happened "${result}"`;
+    const textToShare = `I wished for "${wish}"\n\n...but the Monkey's Paw had other plans: "${result}"\n\nDare to make your own wish? Try it yourself at https://willow.doodle2dollars.com`;
+
     try {
       if (navigator.share) {
+        try {
+          const response = await fetch("/share-image.png");
+          const blob = await response.blob();
+          const file = new File([blob], "wishing-willow.png", { type: blob.type });
+
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              title: 'Wishing Willow',
+              text: textToShare,
+              files: [file]
+            });
+            return;
+          }
+        } catch (e) {
+          console.error("Failed to share image, falling back to text", e);
+        }
+
         await navigator.share({
           title: 'Wishing Willow',
           text: textToShare,
@@ -173,7 +192,9 @@ export default function Home() {
           <button className={styles.actionButton} onClick={toggleMute} style={{ padding: '10px 15px' }}>
             {isMuted ? "🔇 UNMUTE" : "🔊 MUTE"}
           </button>
-          <button className={styles.actionButton}>MAKE YOUR WISH HAPPEN!</button>
+          <button className={styles.actionButton} onClick={() => textareaRef.current?.focus()}>
+            MAKE YOUR WISH HAPPEN!
+          </button>
         </div>
       </header>
 
@@ -183,6 +204,7 @@ export default function Home() {
         
         <div className={styles.inputWrapper}>
           <textarea 
+            ref={textareaRef}
             className={styles.textarea}
             value={wish}
             onChange={(e) => setWish(e.target.value)}
@@ -194,7 +216,13 @@ export default function Home() {
 
         <button 
           className={styles.wishButton}
-          onClick={handleWish}
+          onClick={() => {
+            if (!wish.trim()) {
+              alert("Please enter a wish first!");
+            } else {
+              handleWish();
+            }
+          }}
           disabled={status !== "idle"}
         >
           WISH
