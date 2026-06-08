@@ -59,6 +59,19 @@ export default function Home() {
     };
   }, [isMuted]);
 
+  useEffect(() => {
+    const handleGlobalKeydown = (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      
+      if (e.key.toLowerCase() === 'm') {
+        setIsMuted(prev => !prev);
+      }
+    };
+    
+    window.addEventListener('keydown', handleGlobalKeydown);
+    return () => window.removeEventListener('keydown', handleGlobalKeydown);
+  }, []);
+
   const playRumble = () => {
     try {
       const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
