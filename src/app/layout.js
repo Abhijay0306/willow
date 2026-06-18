@@ -1,5 +1,5 @@
 import { Luckiest_Guy, Courier_Prime } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const luckiestGuy = Luckiest_Guy({ 
